@@ -59,7 +59,8 @@ def fill_NAN(df) -> pd.DataFrame:
 def save_data1(df):
     try:
      folder_name = "Data"
-     os.makedirs(folder_name, exist_ok=True)  # Create folder if it doesn't exist
+     os.makedirs(folder_name, exist_ok=True)
+     folder_name    # Create folder if it doesn't exist
      file_path = os.path.join(folder_name, "clean_data.csv")
      df.to_csv(file_path, index=False)
      logger.debug('data saved !')

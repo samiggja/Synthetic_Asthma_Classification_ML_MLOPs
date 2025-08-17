@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data-injetion.py
+    deps:
+    - path: main_data/synthetic_asthma_dataset.csv
+      hash: md5
+      md5: 037a0e43f3ab37917fecb75589906761
+      size: 975170
+    - path: src/data-injetion.py
+      hash: md5
+      md5: f473017f14794e94199e2bfb4df67437
+      size: 2348
+    outs:
+    - path: Data/clean_data.csv
+      hash: md5
+      md5: 2ce0a73eaf74330691e4de38ed5d6dc9
+      size: 968264
+  data_preprocessing:
+    cmd: python src/preprocessing.py
+    deps:
+    - path: Data/clean_data.csv
+      hash: md5
+      md5: 2ce0a73eaf74330691e4de38ed5d6dc9
+      size: 968264
+    - path: src/preprocessing.py
+      hash: md5
+      md5: 335d18ac8402c3a0ce875ca4b5dd1290
+      size: 3603
+    outs:
+    - path: Data/preprocesed_data.csv
+      hash: md5
+      md5: 3f358b20bf292978d46ba37e2edbf357
+      size: 2978535
+  model_building:
+    cmd: python src/model_building.py
+    deps:
+    - path: Data/preprocesed_data.csv
+      hash: md5
+      md5: 3f358b20bf292978d46ba37e2edbf357
+      size: 2978535
+    - path: src/model_building.py
+      hash: md5
+      md5: c9bf008baa766491363a201802404aa5
+      size: 3111
+    outs:
+    - path: model/rf_model.pkl
+      hash: md5
+      md5: fff5b7451376759fa4345fbcb480341d
+      size: 6391451
+  model_evaluation:
+    cmd: python src/model-evaluation.py
+    deps:
+    - path: Data/preprocesed_data.csv
+      hash: md5
+      md5: 3f358b20bf292978d46ba37e2edbf357
+      size: 2978535
+    - path: model/rf_model.pkl
+      hash: md5
+      md5: fff5b7451376759fa4345fbcb480341d
+      size: 6391451
+    - path: src/model-evaluation.py
+      hash: md5
+      md5: d4ad8d1d67cad028e29a8620e64d7f01
+      size: 4663
+    outs:
+    - path: reports/metrics.json
+      hash: md5
+      md5: 7ea265f5ae4b1157a1a7582c4723e5f9
+      size: 133
+  geting_output:
+    cmd: python src/geting-output.py
+    deps:
+    - path: Data/preprocesed_data.csv
+      hash: md5
+      md5: 3f358b20bf292978d46ba37e2edbf357
+      size: 2978535
+    - path: model/rf_model.pkl
+      hash: md5
+      md5: fff5b7451376759fa4345fbcb480341d
+      size: 6391451
+    - path: src/geting-output.py
+      hash: md5
+      md5: 49024ac17bf3f2ea1d45509559c393cd
+      size: 3451
+    outs:
+    - path: Final prediction of data/predictions.csv
+      hash: md5
+      md5: 90e5bb358096a3ee1a37162499105c80
+      size: 37354
